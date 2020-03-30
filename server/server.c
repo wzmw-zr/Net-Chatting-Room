@@ -5,7 +5,7 @@
 	> Created Time: 2020年03月29日 星期日 21时48分02秒
  ************************************************************************/
 
-#include "../common/head.h"
+#include "../common/head/head.h"
 #include "../common/color.h"
 #include "../common/server/server.h"
 

@@ -16,21 +16,11 @@ int check(char *line, char *key);
 char *split_value(char *line);
 int GetSocket();
 void BindAndListen(int sockfd, int port);
+
 void *work(void *arg);
-
-typedef struct User {
-    char name[100];
-    int sockfd;
-    pthread_t tid;
-    struct User *next;
-} User;
-
-typedef struct UserMsg {
-    char name[100];
-    int type, size;
-    char filename[256];
-    char data[1024];
-} UserMsg;
+void ExistHandle(User *user);
+void HandleMessage(UserMsg msg);
+void Communicate(User *user);
 
 extern User *start;
 #endif

@@ -21,4 +21,23 @@
 #include<sys/wait.h>
 #include<netinet/in.h>
 #include<arpa/inet.h>
+int check(char *line, char *key);
+char *split_value(char *line);
+char *get_value(char *path, char *key);
+int GetSocket();
+
+typedef struct User {
+    char name[100];
+    int sockfd;
+    pthread_t tid;
+    struct User *next;
+} User;
+
+typedef struct UserMsg {
+    char name[100];
+    int type, size;
+    char filename[256];
+    char data[1024];
+} UserMsg;
+
 #endif

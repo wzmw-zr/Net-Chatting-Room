@@ -5,9 +5,10 @@
 	> Created Time: 2020年03月29日 星期日 21时45分26秒
  ************************************************************************/
 
-#include "../head.h"
+#include "../head/head.h"
 #include "./server.h"
 
+////////////////////////User Search, Add, Delete///////////////////////
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 User *start;
@@ -79,6 +80,7 @@ void *work(void *arg) {
         free(user);
         return NULL;
     }    
+    printf("%s\n", user->name);
     LOCK;
     if (SearchUser(user->name)) {
         ExistHandle(user); 
@@ -93,48 +95,6 @@ void *work(void *arg) {
 
 
 //////////////////////////// PreWork ////////////////////////////////
-
-int check(char *line, char *key) {
-    if (strncmp(line, key, strlen(key)) || line[strlen(key)] != '=') return 0;
-    return 1;
-}
-
-char *split_value(char *line) { 
-    char *tmp = line;
-    if (line[strlen(line) - 1] == '\n') line[strlen(line) - 1] = '\0';
-    while (*line != '=') line++;
-    char *ret = strdup(++line);
-    free(tmp);
-    return ret;
-}
-
-char *get_value(char *path, char *key) {
-    char *value = (char *) calloc(sizeof(char), 100);
-    FILE *fp;
-    if ((fp = fopen(path, "r")) == NULL) {
-        perror("fopen");
-        exit(1);
-    }
-    char *line = NULL;
-    size_t number = 0;
-    while (getline(&line, &number, fp) != -1) {
-        if (check(line, key)) break;
-        free(line);
-        line = NULL;
-        number = 0;
-    }
-    if (!line) return NULL;
-    return split_value(line);
-}
-
-int GetSocket() {
-    int socketfd;
-    if ((socketfd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
-        perror("socket");
-        exit(1);
-    }
-    return socketfd;
-}
 
 void BindAndListen(int sockfd, int port) { 
     struct linger val;
